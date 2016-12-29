@@ -1,0 +1,59 @@
+Create/start Amazon EC2 instance
+Create Elastic IP and associate it with instance
+Go to the active security group
+	Add Inbound rules:
+        SSH TCP 22 My IP
+        HTTP TCP 80 0.0.0.0/0
+Download Putty and Putty Gen
+Transform key in Putty Gen
+Log in with SSH using ubuntu and the transformed security key
+Create a new user jason and add sudo privelages
+Create a new folder under home/jason titled .ssh
+Create a new file in .ssh called authorized_keys
+Create a new security key
+	ssh-keygen -t rsa
+Copy the public files contents to authorized_keys file
+Copy the private file to your computer
+Log in with SSH using jason ans the private security key
+Install nodejs:
+	sudo apt-get update
+	sudo apt-ger upgrade
+        sudo apt-get install nodejs
+Install npm:
+	sudo apt-get install npm
+Install forever and forever-service globally:
+	sudo npm install -g forever
+	sudo npm install -g forever-service
+Clone github repository realtor to /home/jason/realtor (might need to make 'realtor' folder):
+	git clone https://github.com/jcoombs20/realtor.git
+Modify port 80 to run nodejs server:
+	sudo apt-get install libcap2-bin
+	sudo setcap cap_net_bind_service=+ep $(readlink -f /usr/bin/node)
+Create the forever service using the express app with virtual hosts running on port 80 located in the server folder:
+	sudo forever-service install realtor -s /home/jason/realtor/server/app.js
+Start the server:
+	sudo service realtor start
+
+Log into google domains (domains.google.com) and go to carolcoombs.com
+Go to 'Configure DNS' options and scroll down to 'Custom resource records'
+Add/edit three records (* and www, [map adds subdomain option) for the elastic IP address (e.g.):
+	@	A	1h	34.195.190.152
+	www	A	1h	34.195.190.152
+	map	A	1h	34.195.190.152
+Open browser and go to carolcoombs.com, www.carolcoombs.com, or map.carolcoombs.com (subdomain option)
+
+Save changes to any realtor file in github:
+        git init (if first time)
+	git add -A
+	git status
+	git commit -m "New changes message"
+	git push origin master
+
+   (if first time using git might need below three lines)
+	git config --global user.email "type_email_here"
+	git config --global user.name "type_name_here"
+	git remote add origin https://github.com/jcoombs20/realtor
+	
+ 
+
+	
